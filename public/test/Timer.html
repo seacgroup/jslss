@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Timer test</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <base href=".." />
+        <script src="js/libs/lss/Timer.js"></script>
+        <script>
+function print ( ) {
+    var args = Array.prototype.slice.call( arguments ),
+        el = document.querySelector( 'pre' );
+    if ( args[args.length - 1] !== false ) {
+        args.push( "\r\n" )
+    }
+    args.forEach( function ( a ) {
+        if ( a instanceof EventTarget ) {
+            el.appendChild( a );
+        } else if ( typeof a === 'boolean' ) {
+            if ( a )
+                el.appendChild( document.createTextNode( "\r\n" ) );
+        } else {
+            el.appendChild( document.createTextNode( a ) )
+        }
+    } )
+}
+window.addEventListener( 'load', function() {
+    var t1 = new Timer,
+        btn = document.querySelector( 'button' ),
+        n,
+        intervalCallback = function ( type ) {
+            print( 'interval (' + type + ') countdown ', n--, ' at ', t1.elapsed, ' seconds' );
+            if ( n < 1 ) {
+                t1.removeEventListener( type, intervalCallback )
+                t1.restore().paused = false;
+            }
+        };
+    btn.addEventListener( 'click', function () {
+        print( ( t1.paused = ! t1.paused ) ? 'paused' : 'UNpaused', ' at ', t1.elapsed, ' seconds' )
+    }, true )
+    t1.addEventListener( 'timeout', function ( type ) {
+        print( 'timeout (' + type + ') at ', t1.elapsed, ' seconds' )
+        n = 5;
+        t1.addEventListener( 'interval', intervalCallback, 2 );
+    }, 2 );
+    t1.paused = false;
+} )
+        </script>
+    </head>
+    <body>
+        <h1>Timer test</h1>
+        <button>pause</button>
+        <pre>Results:
+</pre>
+    </body>
+</html>
