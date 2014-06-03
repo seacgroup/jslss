@@ -388,7 +388,7 @@
                 },
             } );
         // initualize event
-        this.reset( )
+        this.restore( )
     }
     
     lss.Timer = Timer
