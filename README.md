@@ -20,106 +20,52 @@ constructor Timer( options )
     paused      true is the timer should start paused
     timeout     the number of seconds used to calculate remaining property
 
-propertry state
-  @param {object}  options state options for restoring the timer.
-  @returns {this}  returns this Timer
+property state - readonly
+  @returns object  returns this Timer's current state (can be used to restore the timer across page loads)
 
- * get state options that can be used with reset to restore state.
- * 
- * @property {state} readonly
- * @this {Timer}
- */
-/**
- * the started time (system time)
- * 
- * @property {started} readonly
- * @this {Timer}
- */
-/**
- * the stopped time (system time)
- * 
- * @property {stopped}  readonly
- * @this {Timer}
- */
-/**
- * the number of seconds used to calculate remaining property
- * 
- * @property {timeout}
- * @this {Timer}
- */
-/**
- * whether the timer is paused
- * 
- * @property {paused}
- * @this {Timer}
- */
-/**
- * the number of seconds elapsed
- * 
- * @property {elapsed} readonly
- * @this {Timer}
- */
-/**
- * the number of seconds remaining
- * 
- * @property {elapsed} readonly
- * @this {Timer}
- */
+property started - readonly
+  number  the date time when the Timer was started
+
+property stopped - readonly
+  number  the date time when the Timer was stopped
+
+property timeout
+  number  the seconds used to calculate remaining seconds until timeout
+
+property paused
+  boolean  the state of whether the Timer is paused
+
+property elapsed
+  number  the number of seconds elapsed since the Timer was started
+
+property remaining
+  number  the number of seconds remaining until Timer timeout
 
 method restore( options )
-  @param {object}  options state options for restoring the timer.
-  @returns {this}  returns this Timer
+  param options object  options state options for restoring the timer.
+  returns {this}  returns this Timer
 
-/**
- * add event listener to timer.
- * 
- * @method {addEventListener}
- * @this {Timer}
- * @param {eventType}   the type of event listener.
- * @param {callback}    the event listener callback.
- * @param {data}        event type dependent data (may be optional).
- * @returns {this}  returns this Timer
- */
-/**
- * remove event listener to timer.
- * 
- * @method {removeEventListener}
- * @this {Timer}
- * @param {eventType}   the type of event listener.
- * @param {callback}    the event listener callback of to be removed (use "*" to remove all.)
- * @returns {this}  returns this Timer
- */
-/**
- * trigger event to all listeners of type.
- * 
- * @method {triggerEvent}
- * @this {Timer}
- * @param {eventType}   the type of event listener.
- * @returns {this}  returns this Timer
- */
-/**
- * convert to timer value to string.
- * 
- * @override
- * @method {toString}
- * @this {Timer}
- * @returns {this}  string representation of elapsed (or remaining if elapsed is defined)
- */
-/**
- * convert to timer value to locale string.
- * 
- * @override
- * @method {toLocaleString}
- * @this {Timer}
- * @param {locales} a BCP 47 language tag, or an array of such strings.
- * @param {options} An object with some or all of Date locale iptions.
- * @returns {this}  locale string representation of elapsed (or remaining if elapsed is defined)
- */
-/**
- * convert timer to seconds
- * 
- * @override
- * @method {valueOf}
- * @this {Timer}
- * @returns {this}  number representation of elapsed (or remaining if elapsed is defined)
- */
+method addEventListener( eventType, callback, data )
+  param eventType string    support event types are "timeout" and "interval".
+    "timeout"   event triggers when  (data as seconds) or remainder (if data is null) expires (reaches zero)
+    "interval"  event triggers every (data as seconds)
+  param callback  Function  the event callback function.
+  param data      mixed     event type dependant (may be optional)
+  returns {this}  returns this Timer
+
+method removeEventListener( eventType, callback )
+  param eventType string    support event types are "timeout" and "interval".
+  param callback  Function  the event callback function to be removed (or "*" for all)
+
+method toString( format )
+  param format string     the format for the elapsed (or remaining if timeout is set) seconds (optional)
+  returns {this} string   string representation of elapsed (or remaining if elapsed is defined)
+    if no format is specified the string will be simple number as string format
+
+method toLocaleString( format )
+  returns {this} string   string representation of elapsed (or remaining if elapsed is defined)
+    if no format is specified the string will be simple number as string format
+
+method valueOf( )
+  returns {this} number representation of elapsed (or remaining if elapsed is defined)
+
